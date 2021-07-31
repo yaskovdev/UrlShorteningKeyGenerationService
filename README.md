@@ -22,6 +22,6 @@ docker container run -d --name url-shortening-key-generator --publish 80:80 url-
 
 ```shell
 kubectl create -f deployment-definition.yaml
-kubectl expose deployment url-shortening-key-generator-deployment --type=LoadBalancer --name=url-shortening-key-generator-service --port 80
+kubectl create -f service-definition.yaml
 kubectl describe service url-shortening-key-generator-service
 ```
