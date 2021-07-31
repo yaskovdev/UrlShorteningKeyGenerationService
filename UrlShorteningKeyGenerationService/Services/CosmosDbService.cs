@@ -9,6 +9,8 @@ namespace UrlShorteningKeyGenerationService.Services
 {
     public class CosmosDbService : ICosmosDbService
     {
+        private const string Query = "SELECT * FROM c WHERE NOT c.taken ORDER BY c.id OFFSET 0 LIMIT @limit";
+
         private readonly Container container;
 
         public CosmosDbService(CosmosClient dbClient, string databaseName, string containerName)
@@ -21,8 +23,8 @@ namespace UrlShorteningKeyGenerationService.Services
             await container.CreateItemAsync(entity, new PartitionKey(entity.Id));
         }
 
-        public Task<IEnumerable<UrlKeyEntity>> GetUrlKeysAsync(string query) =>
-            ReadFully(container.GetItemQueryIterator<UrlKeyEntity>(new QueryDefinition(query)));
+        public Task<IEnumerable<UrlKeyEntity>> GetUrlKeysAsync(int limit) =>
+            ReadFully(container.GetItemQueryIterator<UrlKeyEntity>(BuildSelectTopQuery(limit)));
 
         public async Task MarkUrlKeysAsTaken(IEnumerable<string> urlKeys)
         {
@@ -30,5 +32,8 @@ namespace UrlShorteningKeyGenerationService.Services
                 .Select(key => container.UpsertItemAsync(new UrlKeyEntity(key, true), new PartitionKey(key)));
             await WhenAll(updates);
         }
+
+        private static QueryDefinition BuildSelectTopQuery(int limit) =>
+            new QueryDefinition(Query).WithParameter("@limit", limit);
     }
 }

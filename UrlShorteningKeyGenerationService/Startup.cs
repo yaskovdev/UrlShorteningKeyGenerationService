@@ -22,6 +22,7 @@ namespace UrlShorteningKeyGenerationService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IKeyGenerationService, KeyGenerationService>();
             services.AddSingleton<IRandomKeyCreationService, RandomKeyCreationService>();
             services.AddSingleton<ICosmosDbService>(
                 InitializeCosmosClientInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
