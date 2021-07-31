@@ -19,7 +19,7 @@ namespace UrlShorteningKeyGenerationService.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            timer.Change(Zero, FromSeconds(1));
+            timer.Change(Zero, FromSeconds(30));
             return CompletedTask;
         }
 
