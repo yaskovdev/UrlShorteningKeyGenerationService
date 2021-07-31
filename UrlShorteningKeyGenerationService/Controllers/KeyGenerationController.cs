@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using UrlShorteningKeyGenerationService.Services;
 
 namespace UrlShorteningKeyGenerationService.Controllers
@@ -8,24 +11,25 @@ namespace UrlShorteningKeyGenerationService.Controllers
     [Route("/api/v1/keys")]
     public class KeyGenerationController : ControllerBase
     {
-        private const int DefaultKeyLength = 6;
+        private const int DefaultLimit = 10;
 
-        private readonly IKeyGenerationService keyGenerationService;
-        private readonly ILogger<KeyGenerationController> logger;
+        private readonly ICosmosDbService cosmosDbService;
 
-        public KeyGenerationController(IKeyGenerationService keyGenerationService,
-            ILogger<KeyGenerationController> logger)
+        public KeyGenerationController(ICosmosDbService cosmosDbService)
         {
-            this.keyGenerationService = keyGenerationService;
-            this.logger = logger;
+            this.cosmosDbService = cosmosDbService;
         }
 
         [HttpGet]
-        public string Get(int? keyLength)
+        public async Task<IEnumerable<string>> Get(int? limit)
         {
-            var length = keyLength ?? DefaultKeyLength;
-            logger.LogInformation("Going to generate a random key of length {Length}", length);
-            return keyGenerationService.RandomKey(length);
+            var query = $"SELECT * FROM c WHERE NOT c.taken ORDER BY c.id OFFSET 0 LIMIT {limit ?? DefaultLimit}";
+            var entities = await cosmosDbService.GetUrlKeysAsync(query);
+            var keys = entities
+                .Select(it => it.Id)
+                .ToImmutableList();
+            await cosmosDbService.MarkUrlKeysAsTaken(keys);
+            return keys;
         }
     }
 }

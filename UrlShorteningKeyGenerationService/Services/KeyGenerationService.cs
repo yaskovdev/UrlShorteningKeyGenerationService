@@ -1,20 +1,26 @@
-using System;
-using static System.Linq.Enumerable;
+using Microsoft.Extensions.Logging;
 
 namespace UrlShorteningKeyGenerationService.Services
 {
     public class KeyGenerationService : IKeyGenerationService
     {
-        private const string Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        private readonly IRandomKeyGenerator keyGenerator;
+        private readonly ICosmosDbService cosmosDbService;
+        private readonly ILogger<KeyGenerationService> logger;
 
-        private static readonly Random Random = new();
+        public KeyGenerationService(IRandomKeyGenerator keyGenerator,
+            ICosmosDbService cosmosDbService, ILogger<KeyGenerationService> logger)
+        {
+            this.keyGenerator = keyGenerator;
+            this.cosmosDbService = cosmosDbService;
+            this.logger = logger;
+        }
 
-        public string RandomKey(int length) =>
-            new(RandomCharArray(length));
-
-        private static char[] RandomCharArray(int length) =>
-            Repeat(Chars, length)
-                .Select(s => s[Random.Next(s.Length)])
-                .ToArray();
+        public void CreateRandomKey(object? context)
+        {
+            var randomKey = keyGenerator.RandomKey(6);
+            logger.LogInformation("Generated key {RandomKey}", randomKey);
+            cosmosDbService.AddUrlKeyAsync(new UrlKeyEntity(randomKey, false));
+        }
     }
 }
