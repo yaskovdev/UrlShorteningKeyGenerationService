@@ -3,9 +3,19 @@
 In order to build docker image, run the below command from the same directory as this README.md.
 
 ```shell
-docker image build -f UrlShorteningKeyGenerationService/Dockerfile -t url-sorting-key-generation-service:latest .
+docker image build -f UrlShorteningKeyGenerationService/Dockerfile -t url-shortening-key-generation-service:latest .
 ```
 
+To publish the image to Azure Container Registry, run the below command.
+
 ```shell
-docker container run -d --name url-sorting-key-generation-service --publish 80:80 url-sorting-key-generation-service:latest
+docker login -u kgscr kgscr.azurecr.io
+docker image tag url-shortening-key-generation-service:latest kgscr.azurecr.io/kgscr/url-shortening-key-generation-service:latest
+docker image push kgscr.azurecr.io/kgscr/url-shortening-key-generation-service:latest
+```
+
+To run a container from the image locally, run the below command.
+
+```shell
+docker container run -d --name url-shortening-key-generation-service --publish 80:80 url-shortening-key-generation-service:latest
 ```
