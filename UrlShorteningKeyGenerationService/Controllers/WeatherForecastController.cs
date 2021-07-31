@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using static System.DateTime;
 
-namespace CatalogBackEnd.Controllers
+namespace UrlShorteningKeyGenerationService.Controllers
 {
     [ApiController]
     [Route("[controller]")]

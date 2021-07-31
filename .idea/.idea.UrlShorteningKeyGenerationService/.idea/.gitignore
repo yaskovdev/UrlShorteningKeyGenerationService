@@ -2,8 +2,8 @@
 /shelf/
 /workspace.xml
 # Rider ignored files
+/.idea.UrlShorteningKeyGenerationService.iml
 /modules.xml
-/.idea.CatalogBackEnd.iml
 /contentModel.xml
 /projectSettingsUpdater.xml
 # Datasource local storage ignored files

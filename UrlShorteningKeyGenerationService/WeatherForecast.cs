@@ -1,6 +1,6 @@
 using System;
 
-namespace CatalogBackEnd
+namespace UrlShorteningKeyGenerationService
 {
     public class WeatherForecast
     {
