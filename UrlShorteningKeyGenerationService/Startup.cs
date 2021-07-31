@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using UrlShorteningKeyGenerationService.Services;
 
 namespace UrlShorteningKeyGenerationService
 {
@@ -11,8 +12,11 @@ namespace UrlShorteningKeyGenerationService
         // This method gets called by the runtime. Use this method to add services to the container.
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IKeyGenerationService, KeyGenerationService>();
+
             services.AddControllers();
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo {Title = "UrlShorteningKeyGenerationService", Version = "v1"}));
+            services.AddSwaggerGen(c =>
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "UrlShorteningKeyGenerationService", Version = "v1"}));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -22,7 +26,8 @@ namespace UrlShorteningKeyGenerationService
             {
                 app.UseDeveloperExceptionPage()
                     .UseSwagger()
-                    .UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UrlShorteningKeyGenerationService v1"));
+                    .UseSwaggerUI(c =>
+                        c.SwaggerEndpoint("/swagger/v1/swagger.json", "UrlShorteningKeyGenerationService v1"));
             }
 
             app.UseHttpsRedirection()
