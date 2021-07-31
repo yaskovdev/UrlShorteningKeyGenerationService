@@ -3,19 +3,19 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: url-shortening-key-generation-service-deployment
+  name: url-shortening-key-generator-deployment
 
 spec:
   template:
     metadata:
-      name: url-shortening-key-generation-service-pod
+      name: url-shortening-key-generator-pod
       labels:
         type: key-generation
 
     spec:
       containers:
-        - name: url-shortening-key-generation-service-container
-          image: kgscr.azurecr.io/kgscr/url-shortening-key-generation-service:latest
+        - name: url-shortening-key-generator-container
+          image: kgscr.azurecr.io/kgscr/url-shortening-key-generator:latest
 
   replicas: 1
 
