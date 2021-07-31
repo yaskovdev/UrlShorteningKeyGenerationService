@@ -14,17 +14,17 @@ namespace CatalogBackEnd.Controllers
         private static readonly string[] Summaries =
             {"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"};
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<WeatherForecastController> logger;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            _logger.LogInformation("Going to generate the weather forecast");
+            logger.LogInformation("Going to generate the weather forecast");
             var random = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {
