@@ -19,3 +19,7 @@ To run a container from the image locally, run the below command.
 ```shell
 docker container run -d --name url-shortening-key-generation-service --publish 80:80 url-shortening-key-generation-service:latest
 ```
+
+```shell
+kubectl expose deployment url-shortening-key-generation-service-deployment --type=LoadBalancer --name=url-shortening-key-generation-service-service --port 80
+```
