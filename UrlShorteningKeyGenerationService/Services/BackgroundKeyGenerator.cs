@@ -12,9 +12,9 @@ namespace UrlShorteningKeyGenerationService.Services
     {
         private readonly Timer timer;
 
-        public BackgroundKeyGenerator(IKeyGenerationService keyGenerationService)
+        public BackgroundKeyGenerator(IRandomKeyCreationService randomKeyCreationService)
         {
-            timer = new Timer(keyGenerationService.CreateRandomKey);
+            timer = new Timer(randomKeyCreationService.CreateRandomKey);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

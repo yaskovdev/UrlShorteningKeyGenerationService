@@ -4,7 +4,7 @@ namespace UrlShorteningKeyGenerationService
 {
     public class UrlKeyEntity
     {
-        public UrlKeyEntity(string id, bool isTaken)
+        public UrlKeyEntity(string id, bool isTaken = false)
         {
             Id = id;
             IsTaken = isTaken;
@@ -12,7 +12,7 @@ namespace UrlShorteningKeyGenerationService
 
         [JsonProperty("id")]
         public string Id { get; }
-        
+
         [JsonProperty("taken")]
         public bool IsTaken { get; }
     }

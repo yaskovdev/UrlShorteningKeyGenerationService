@@ -2,14 +2,14 @@ using Microsoft.Extensions.Logging;
 
 namespace UrlShorteningKeyGenerationService.Services
 {
-    public class KeyGenerationService : IKeyGenerationService
+    public class RandomKeyCreationService : IRandomKeyCreationService
     {
         private readonly IRandomKeyGenerator keyGenerator;
         private readonly ICosmosDbService cosmosDbService;
-        private readonly ILogger<KeyGenerationService> logger;
+        private readonly ILogger<RandomKeyCreationService> logger;
 
-        public KeyGenerationService(IRandomKeyGenerator keyGenerator,
-            ICosmosDbService cosmosDbService, ILogger<KeyGenerationService> logger)
+        public RandomKeyCreationService(IRandomKeyGenerator keyGenerator,
+            ICosmosDbService cosmosDbService, ILogger<RandomKeyCreationService> logger)
         {
             this.keyGenerator = keyGenerator;
             this.cosmosDbService = cosmosDbService;
@@ -20,7 +20,7 @@ namespace UrlShorteningKeyGenerationService.Services
         {
             var randomKey = keyGenerator.RandomKey(6);
             logger.LogInformation("Generated key {RandomKey}", randomKey);
-            cosmosDbService.AddUrlKeyAsync(new UrlKeyEntity(randomKey, false));
+            cosmosDbService.AddUrlKeyAsync(new UrlKeyEntity(randomKey));
         }
     }
 }

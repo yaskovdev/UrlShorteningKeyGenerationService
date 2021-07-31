@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
@@ -16,7 +17,7 @@ namespace UrlShorteningKeyGenerationService.Services
                 urlKeys.AddRange(response.ToList());
             }
 
-            return urlKeys;
+            return urlKeys.ToImmutableList();
         }
     }
 }
