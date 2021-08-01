@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static UrlShorteningKeyGenerationService.Services.IConstants;
 
 namespace UrlShorteningKeyGenerationService.Services
 {
@@ -11,6 +12,7 @@ namespace UrlShorteningKeyGenerationService.Services
         private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
         private readonly ICosmosDbService cosmosDbService;
+        private readonly Queue<string> cache = new(CacheCapacity);
 
         public KeyGenerationService(ICosmosDbService cosmosDbService)
         {
@@ -22,13 +24,22 @@ namespace UrlShorteningKeyGenerationService.Services
             await Semaphore.WaitAsync();
             try
             {
-                var keys = await GetUrlKeys(limit);
-                await cosmosDbService.MarkUrlKeysAsTaken(keys);
-                return keys;
+                await EnsureCacheHasEnoughItems(limit);
+                return cache.DequeueMany(limit);
             }
             finally
             {
                 Semaphore.Release();
+            }
+        }
+
+        private async Task EnsureCacheHasEnoughItems(int limit)
+        {
+            if (cache.Count < limit)
+            {
+                var keys = await GetUrlKeys(CacheCapacity - cache.Count);
+                await cosmosDbService.MarkUrlKeysAsTaken(keys);
+                cache.EnqueueMany(keys);
             }
         }
 

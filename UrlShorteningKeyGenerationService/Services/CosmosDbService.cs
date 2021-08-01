@@ -9,7 +9,7 @@ namespace UrlShorteningKeyGenerationService.Services
 {
     public class CosmosDbService : ICosmosDbService
     {
-        private const string Query = "SELECT * FROM c WHERE NOT c.taken ORDER BY c.id OFFSET 0 LIMIT @limit";
+        private const string Query = "SELECT * FROM c WHERE NOT c.taken OFFSET 0 LIMIT @limit";
 
         private readonly Container container;
 

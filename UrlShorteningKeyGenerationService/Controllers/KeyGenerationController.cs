@@ -19,7 +19,7 @@ namespace UrlShorteningKeyGenerationService.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<string>> Get(int? limit) =>
-            await keyGenerationService.TakeKeys(limit ?? DefaultLimit);
+        public async Task<IEnumerable<string>> Get([FromQuery] GetKeysRequest request) =>
+            await keyGenerationService.TakeKeys(request.Limit ?? DefaultLimit);
     }
 }
