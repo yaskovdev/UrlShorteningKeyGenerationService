@@ -1,7 +1,6 @@
-namespace UrlShorteningKeyGenerationService.Services
+namespace UrlShorteningKeyGenerationService.Services;
+
+public interface IConstants
 {
-    public interface IConstants
-    {
-        const int CacheCapacity = 100;
-    }
+    const int CacheCapacity = 100;
 }

@@ -1,10 +1,6 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
+namespace UrlShorteningKeyGenerationService.Services;
 
-namespace UrlShorteningKeyGenerationService.Services
+public interface IKeyGenerationService
 {
-    public interface IKeyGenerationService
-    {
-        Task<IEnumerable<string>> TakeKeys(int limit);
-    }
+    Task<IEnumerable<string>> TakeKeys(int limit);
 }

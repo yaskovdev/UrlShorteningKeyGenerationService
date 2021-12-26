@@ -1,7 +1,6 @@
-namespace UrlShorteningKeyGenerationService.Services
+namespace UrlShorteningKeyGenerationService.Services;
+
+public interface IRandomKeyGenerator
 {
-    public interface IRandomKeyGenerator
-    {
-        public string RandomKey(int length);
-    }
+    public string RandomKey(int length);
 }

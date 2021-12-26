@@ -1,7 +1,6 @@
-namespace UrlShorteningKeyGenerationService.Services
+namespace UrlShorteningKeyGenerationService.Services;
+
+public interface IRandomKeyCreationService
 {
-    public interface IRandomKeyCreationService
-    {
-        void CreateRandomKey(object? context);
-    }
+    void CreateRandomKey(object? context);
 }

@@ -1,19 +1,18 @@
 using Newtonsoft.Json;
 
-namespace UrlShorteningKeyGenerationService
+namespace UrlShorteningKeyGenerationService;
+
+public class UrlKeyEntity
 {
-    public class UrlKeyEntity
+    public UrlKeyEntity(string id, bool isTaken = false)
     {
-        public UrlKeyEntity(string id, bool isTaken = false)
-        {
-            Id = id;
-            IsTaken = isTaken;
-        }
-
-        [JsonProperty("id")]
-        public string Id { get; }
-
-        [JsonProperty("taken")]
-        public bool IsTaken { get; }
+        Id = id;
+        IsTaken = isTaken;
     }
+
+    [JsonProperty("id")]
+    public string Id { get; }
+
+    [JsonProperty("taken")]
+    public bool IsTaken { get; }
 }

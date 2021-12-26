@@ -2,12 +2,11 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using static UrlShorteningKeyGenerationService.Services.IConstants;
 
-namespace UrlShorteningKeyGenerationService
+namespace UrlShorteningKeyGenerationService;
+
+public class GetKeysRequest
 {
-    public class GetKeysRequest
-    {
-        [Range(1, CacheCapacity)]
-        [FromQuery(Name = "limit")]
-        public int? Limit { get; set; }
-    }
+    [Range(1, CacheCapacity)]
+    [FromQuery(Name = "limit")]
+    public int? Limit { get; set; }
 }
